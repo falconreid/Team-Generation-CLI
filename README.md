@@ -2,7 +2,7 @@
 
 ## Description:
 
-This is an office team generator CLI application for Node.js. The application prompts the user (the manager) for information about themselves and then information about the other team members. The user can input any number of team members, and they may be a mix of engineers and interns. Emails must be validated as a proper email type.
+This is an engineering office team generator CLI application for Node.js. The application prompts the user (the manager) for information about themselves and then information about the other team members. The user can input any number of team members, and they may be a mix of engineers and interns. Emails must be validated as a proper email type.
 
 ### User story:
 
