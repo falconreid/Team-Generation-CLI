@@ -51,6 +51,10 @@ function engineerQuestions() {
         answers.github
       );
       teamMembers.push(engineer);
+    })
+    .then(function newCall() {
+      console.log("Would you like to add another Member?");
+      teamPrompt();
     });
 }
 
@@ -93,6 +97,10 @@ function internQuestions() {
         answers.school
       );
       teamMembers.push(intern);
+    })
+    .then(function newCall() {
+      console.log("Would you like to add another Member?");
+      teamPrompt();
     });
 }
 
@@ -145,8 +153,8 @@ function teamPrompt() {
       {
         type: "list",
         name: "role",
-        message: "What type of employee would you like to add?",
-        choices: ["Engineer", "Intern"],
+        message: "Please Choose Which Type of Employee to Add.",
+        choices: ["Engineer", "Intern", "No More Employees"],
       },
     ])
     .then((answers) => {
@@ -159,6 +167,12 @@ function teamPrompt() {
           break;
         case "No More Employees":
           console.log("Employee profiles are done!");
+          console.log(JSON.stringify(teamMembers));
+          render(teamMembers);
+          fs.writeFile(OUTPUT_DIR, outputPath, (err) => {
+            if (err) throw err;
+            console.log(err);
+          });
       }
     });
 }
