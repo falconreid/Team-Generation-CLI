@@ -1,5 +1,3 @@
-var validator = require("email-validator");
-
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,6 +9,92 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+
+const teamMembers = [];
+
+function engineerQuestions() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the engineers's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "What is the engineers's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is the engineers's email?",
+        validate: (answer) => {
+          const emailCheck = answer.match(/\S+@\S+\.\S+/);
+          if (emailCheck) {
+            return true;
+          }
+          return "Please enter a valid email address.";
+        },
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "What is the engineers's Github username?",
+      },
+    ])
+    .then(function (answers) {
+      const engineer = new Engineer(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.github
+      );
+      teamMembers.push(engineer);
+    });
+}
+
+function internQuestions() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the intern's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "What is the intern's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is the intern's email?",
+        validate: (answer) => {
+          const emailCheck = answer.match(/\S+@\S+\.\S+/);
+          if (emailCheck) {
+            return true;
+          }
+          return "Please enter a valid email address.";
+        },
+      },
+      {
+        type: "input",
+        name: "school",
+        message: "What school is the intern attending?",
+      },
+    ])
+    .then(function (answers) {
+      const intern = new Intern(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.school
+      );
+      teamMembers.push(intern);
+    });
+}
 
 function createManager() {
   inquirer
@@ -44,14 +128,15 @@ function createManager() {
       },
     ])
     .then(function (answers) {
-      const manager = new manager(
+      const manager = new Manager(
         answers.name,
         answers.id,
         answers.email,
         answers.officeNumber
       );
+      teamMembers.push(manager);
+      teamPrompt();
     });
-  teamPrompt();
 }
 
 function teamPrompt() {
@@ -61,90 +146,16 @@ function teamPrompt() {
         type: "list",
         name: "role",
         message: "What type of employee would you like to add?",
-        choices: ["Engineer", "Intern", "No More Employees"],
+        choices: ["Engineer", "Intern"],
       },
     ])
     .then((answers) => {
       switch (answers.role) {
         case "Engineer":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                name: "name",
-                message: "What is the engineers's name?",
-              },
-              {
-                type: "input",
-                name: "id",
-                message: "What is the engineers's ID?",
-              },
-              {
-                type: "input",
-                name: "email",
-                message: "What is the engineers's email?",
-                validate: (answer) => {
-                  const emailCheck = answer.match(/\S+@\S+\.\S+/);
-                  if (emailCheck) {
-                    return true;
-                  }
-                  return "Please enter a valid email address.";
-                },
-              },
-              {
-                type: "input",
-                name: "github",
-                message: "What is the engineers's Github username?",
-              },
-            ])
-            .then(function (answers) {
-              const engineer = new engineer(
-                answers.name,
-                answers.id,
-                answers.email,
-                answers.github
-              );
-            });
+          engineerQuestions();
           break;
         case "Intern":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                name: "name",
-                message: "What is the intern's name?",
-              },
-              {
-                type: "input",
-                name: "id",
-                message: "What is the intern's ID?",
-              },
-              {
-                type: "input",
-                name: "email",
-                message: "What is the intern's email?",
-                validate: (answer) => {
-                  const emailCheck = answer.match(/\S+@\S+\.\S+/);
-                  if (emailCheck) {
-                    return true;
-                  }
-                  return "Please enter a valid email address.";
-                },
-              },
-              {
-                type: "input",
-                name: "school",
-                message: "What school is the intern attending?",
-              },
-            ])
-            .then(function (answers) {
-              const intern = new intern(
-                answers.name,
-                answers.id,
-                answers.email,
-                answers.school
-              );
-            });
+          internQuestions();
           break;
         case "No More Employees":
           console.log("Employee profiles are done!");
