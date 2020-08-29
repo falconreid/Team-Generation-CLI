@@ -168,8 +168,7 @@ function teamPrompt() {
         case "No More Employees":
           console.log("Employee profiles are done!");
           console.log(JSON.stringify(teamMembers));
-          render(teamMembers);
-          fs.writeFile(OUTPUT_DIR, outputPath, (err) => {
+          fs.writeFile(outputPath, render(teamMembers), "utf-8", (err) => {
             if (err) throw err;
             console.log(err);
           });
