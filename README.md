@@ -39,6 +39,10 @@ Jest
 
 ![](screenshot-1.jpg)
 
+### Video
+
+[](https://drive.google.com/file/d/1UkIA0T_Co2rs21xCqkIAQepyw1bndgEj/view)
+
 ### Contact Info:
 
 [Github Profile](https://github.com/falconreid/Team-Generation-CLI)
